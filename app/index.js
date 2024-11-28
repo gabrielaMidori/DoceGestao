@@ -1,4 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -29,6 +28,7 @@ import NotificacaoCliente from './Cliente/Notificacao';
 import PerfilCliente from './Cliente/Perfil';
 import Suporte from './Suporte';
 import InfoProd from  './Cliente/infoProd';
+import Pagamento from './Cliente/Pagamento';
 
 function MenuCliente() {
   return (
@@ -162,6 +162,7 @@ export default function Index() {
         <Stack.Screen name="addProd" component={addProd} />
         <Stack.Screen name="Suporte" component={Suporte} />
         <Stack.Screen name="InfoProd" component={InfoProd} />
+        <Stack.Screen name="Pagamento" component={Pagamento} />
       </Stack.Navigator>
   );
 }

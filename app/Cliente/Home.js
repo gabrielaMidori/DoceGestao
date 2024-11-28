@@ -5,12 +5,12 @@ import { Feather } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { db } from "../../FirebaseConfig";
 import { ref, onValue } from "firebase/database";
-import infoProd from './infoProd';
+import { useNavigation } from 'expo-router';
 
 const {width} = Dimensions.get('screen')
 const {height} = Dimensions.get('screen')
 
-export default function HomeCliente() {
+export default function HomeCliente({route}) {
   const [image, setImage] = useState('');
   const [nome, setNome] =  useState('');
   const [preco, setPreco] =  useState('');
@@ -41,10 +41,13 @@ export default function HomeCliente() {
         imageProduto: image
      }
    ]
-
-   function infoProd({navigation}) {
-      navigation.navigate('InfoProd', {nomeProduto: nome, descProduto: desc});
+   const navigation = useNavigation();
+   const infoProd = () => {
+      
+      navigation.navigate('InfoProd', {nomeProduto: nome, descProduto: desc, imageProduto: image, precoProduto: preco, moedasDigitais: quantMoedas});
    }
+
+   var quantMoedas = 10;
 
    const listProdutos = produtos.map(produto => //sem a pasta produto
     <View style={styles.backgroundView}>
@@ -79,7 +82,8 @@ export default function HomeCliente() {
               <Feather name={'chevron-down'} size={20} />
             </View>
           </View>
-          <MaterialCommunityIcons name="account-circle-outline" size={35} />
+          <Image source={require('../imgs/DoceMoeda.png')} style={{width: 30, height: 30, marginRight: 5}}/>
+          <Text style={{color: '#555', fontSize: 15, fontWeight: 'bold'}}>{route.params?.moedasDigitais}</Text>
         </View>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <Image
@@ -139,15 +143,15 @@ export default function HomeCliente() {
           <View style={[styles.favoritos, { marginTop: 30 }]}>
             
           </View>
-          <View style={styles.produtos}>
-            <TouchableOpacity onPress={infoProd}>
+          <View style={styles.produtos}> 
               <View>
+              <TouchableOpacity onPress={infoProd}>
                 {image !== '' && <Image style={styles.imgProdutos} source={{uri: produto.imageProduto}}/>}
                 {categoria !== '' && <Text style={styles.categoria}>{produto.categoriaProduto}</Text>}
                 {nome !== '' && <Text style={styles.nome}>{produto.nomeProduto}</Text>}
                 {preco !== '' && <Text style={styles.preco}>{produto.precoProduto}</Text>}
+              </TouchableOpacity>
               </View>
-            </TouchableOpacity>
           </View>
           <View style={[styles.favoritos, { marginTop: 10 }]}>
           </View>
